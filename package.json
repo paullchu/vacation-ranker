@@ -1,0 +1,22 @@
+{
+  "name": "vacation-ranker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vacation Ranker: pick A or B and discover your personal top-10 travel ranking.",
+  "scripts": {
+    "build": "node scripts/build-www.js",
+    "ios": "npm run build && npx cap sync ios && npx cap open ios",
+    "sync": "npm run build && npx cap sync ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/haptics": "8.0.2",
+    "@capacitor/ios": "8.5.3",
+    "@capacitor/share": "8.0.3",
+    "@capacitor/splash-screen": "8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3"
+  }
+}

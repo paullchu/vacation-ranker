@@ -374,8 +374,20 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   var AD_CARD = '<div class="ad-card" aria-label="Advertisement placeholder"><div class="ad-media">Ad image</div>' +
     '<div class="ad-body"><span class="ad-tag">Sponsored</span><b>Native ad slot</b><span>Sized to match the theme cards</span></div></div>';
   /* Where shared links point. Update this when the app gets its own web address. */
-  var SITE_URL = /github\.io$|vacation-?ranker/i.test(location.hostname) ? location.origin + location.pathname : "https://claude.ai/artifact/Pi4PFj3cwnF6PDLvvgt6u2";
-  var CH = null, vs = null, lastPersona = null, shareBlob = null;
+  var SITE_URL = "https://paullchu.github.io/vacation-ranker/";
+  var CH = null, vs = null, lastPersona = null, shareBlob = null, shareDataUrl = null;
+
+  /* ---------- iPhone app extras (only active inside the App Store app) ---------- */
+  var NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  var Plug = NATIVE ? window.Capacitor.Plugins : {};
+  function buzz() { try { if (NATIVE && Plug.Haptics) Plug.Haptics.impact({ style: "LIGHT" }); } catch (e) {} }
+  function nativeShare(opts) { try { return Plug.Share.share(opts).catch(function () {}); } catch (e) { return Promise.resolve(); } }
+  function nativeShareImage(caption) {
+    if (!shareDataUrl || !Plug.Filesystem) return nativeShare({ text: caption });
+    Plug.Filesystem.writeFile({ path: "my-top-10.png", data: shareDataUrl.split(",")[1], directory: "CACHE" })
+      .then(function (r) { return nativeShare({ text: caption, files: [r.uri] }); })
+      .catch(function () { nativeShare({ text: caption }); });
+  }
 
   function poster(id, opts) { return ART.render(id, PLACES[id], opts); }
   function fitSoon() { ART.fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ART.fit(); }); }
@@ -494,6 +506,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
       S.next++; S.lo = 0; S.hi = S.sorted.length;
     }
     S.picks++;
+    buzz();
     var a = $("cardA"), b = $("cardB"), winEl = a.dataset.id === winnerId ? a : b;
     winEl.classList.add("picked"); (winEl === a ? b : a).classList.add("lost");
     busy = true;
@@ -547,7 +560,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     $("toast").textContent = "";
     renderCompare();
     closePanels();
-    shareBlob = null; $("share-img").hidden = true;
+    shareBlob = null; shareDataUrl = null; $("share-img").hidden = true;
     show("results");
     fitSoon();
   }
@@ -581,12 +594,13 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     $("sh-fb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE_URL);
     if (!shareBlob) buildShareImage().then(function (r) {
       if (!r) return;
-      shareBlob = r.blob;
+      shareBlob = r.blob; shareDataUrl = r.url;
       $("share-img").src = r.url; $("share-img").hidden = false;
     });
   }
   function shareToApp(app) {
     var caption = shareText(true);
+    if (NATIVE) return nativeShareImage(caption);
     try {
       if (shareBlob && navigator.canShare) {
         var file = new File([shareBlob], "my-top-10.png", { type: "image/png" });
@@ -646,7 +660,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   function updateChallengeLink() {
     $("ch-link").textContent = challengeLink();
     $("ch-x").href = "https://x.com/intent/post?text=" + encodeURIComponent(challengeMessage());
-    $("ch-native").hidden = !(navigator.share);
+    $("ch-native").hidden = !(NATIVE || navigator.share);
   }
   function renderCompare() {
     var box = $("compare");
@@ -684,7 +698,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   $("sh-tt").addEventListener("click", function () { shareToApp("TikTok"); });
   $("ch-name").addEventListener("input", updateChallengeLink);
   $("ch-copy").addEventListener("click", function () { copy(challengeMessage(), "Challenge link copied. Send it to a friend."); });
-  $("ch-native").addEventListener("click", function () { try { navigator.share({ text: challengeMessage() }).catch(function () {}); } catch (e) {} });
+  $("ch-native").addEventListener("click", function () { if (NATIVE) return nativeShare({ text: challengeMessage() }); try { navigator.share({ text: challengeMessage() }).catch(function () {}); } catch (e) {} });
   $("challenge-banner").addEventListener("click", function (e) { if (e.target.closest("#take-challenge")) start(CH.theme); });
   window.addEventListener("hashchange", function () { readChallenge(); if (!$("home").hidden) renderHome(); });
   document.addEventListener("keydown", function (e) {
