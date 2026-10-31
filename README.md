@@ -22,5 +22,5 @@ Each new place is slotted into your list with as few A-vs-B questions as possibl
 (binary insertion). Ranking 10 places takes about 20 to 25 picks.
 
 ## Ad slots (placeholders)
-- 300×250 rectangle: top-right tile of each theme group on desktop; below the group on smaller screens
+- Native in-feed ad card: top-right cell of each 2×2 theme group, same size as a theme card
 - Bottom banner: 728×90 on desktop and tablets, 320×50 on phones

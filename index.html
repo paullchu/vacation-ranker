@@ -43,7 +43,7 @@ body {
 }
 button { font: inherit; color: inherit; cursor: pointer; }
 button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
-.wrap { max-width: 1080px; margin: 0 auto; }
+.wrap { max-width: 920px; margin: 0 auto; }
 .poster-name { font-family: var(--f-display); font-weight: 900; font-stretch: 72%; fill: var(--ink); letter-spacing: .01em; }
 .poster svg { display: block; width: 100%; height: 100%; }
 
@@ -68,10 +68,20 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .hero-duel .poster:last-of-type { transform: rotate(2deg) translateY(10px); }
 .group-label { font-family: var(--f-display); font-weight: 800; font-stretch: 85%; font-size: 1.35rem; margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; }
 .group-label::after { content: ""; flex: 1; height: 2px; background: var(--line); }
-.themes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-@media (min-width: 640px) { .themes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 1000px) { .themes { grid-template-columns: repeat(3, minmax(0, 1fr)) 300px; } .themes .ad-rect { grid-column: 4; grid-row: 1; } }
-.ad-rect { width: 300px; height: 250px; max-width: 100%; justify-self: center; grid-column: 1 / -1; }
+.themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+/* Native in-feed ad: same size and shape as a theme card, always the top-right cell */
+.ad-card { display: flex; flex-direction: column; border: 1px dashed #9AAEB1; border-radius: 14px; overflow: hidden; background: var(--surface); min-width: 0; }
+.ad-media { aspect-ratio: 2 / 1; max-width: 100%; display: grid; place-items: center; background: var(--grey); color: var(--muted); font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; text-align: center; padding: 8px; }
+.ad-body { display: grid; gap: 2px; padding: 12px 14px 14px; border-top: 2px dashed var(--line); color: var(--muted); font-size: .9rem; }
+.ad-body b { color: var(--ink); font-family: var(--f-display); font-weight: 800; font-stretch: 88%; font-size: 1.12rem; line-height: 1.2; }
+.ad-tag { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 520px) {
+  .themes { gap: 10px; }
+  .ticket-body, .ad-body { padding: 8px 10px 10px; }
+  .ticket h3, .ad-body b { font-size: .98rem; }
+  .ticket p, .ad-body span:last-child { display: none; }
+  .ticket .meta span:last-child { display: none; }
+}
 .ticket { display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; min-width: 0; }
 .ticket:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .ticket .poster { aspect-ratio: 2 / 1; max-width: 100%; }
@@ -254,6 +264,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   function save(key, val) { try { localStorage.setItem("vr:" + key, JSON.stringify(val)); } catch (e) {} }
   function load(key) { try { return JSON.parse(localStorage.getItem("vr:" + key)); } catch (e) { return null; } }
 
+  var AD_CARD = '<div class="ad-card" aria-label="Advertisement placeholder"><div class="ad-media">Ad image</div>' +
+    '<div class="ad-body"><span class="ad-tag">Sponsored</span><b>Native ad slot</b><span>Sized to match the theme cards</span></div></div>';
   function poster(id, opts) { return ART.render(id, PLACES[id], opts); }
   function fitSoon() { ART.fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ART.fit(); }); }
 
@@ -278,14 +290,17 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     THEMES.forEach(function (t) { if (groups.indexOf(t.group) < 0) groups.push(t.group); });
     groups.forEach(function (g) {
       html += '<h2 class="group-label">' + esc(g) + '</h2><div class="themes">';
+      var k = 0;
       THEMES.filter(function (t) { return t.group === g; }).forEach(function (t) {
         var last = load("last:" + t.id), cover = coverFor(t);
+        if (k === 1) html += AD_CARD;
+        k++;
         html += '<button type="button" class="ticket" data-theme-id="' + t.id + '">' +
           '<div class="poster">' + poster(cover) + "</div>" +
           '<div class="ticket-body"><h3>' + esc(t.title) + "</h3><p>" + esc(t.blurb) + "</p>" +
           '<div class="meta"><span>Play · 10 places</span><span>' + (last ? "Your #1: " + esc(PLACES[last[0]].name) : "About 2 min") + "</span></div></div></button>";
       });
-      html += '<div class="ad ad-rect" aria-label="Advertisement placeholder">Ad · 300 × 250</div></div>';
+      html += "</div>";
     });
     $("themes").innerHTML = html;
     fitSoon();
