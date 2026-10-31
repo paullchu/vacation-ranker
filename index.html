@@ -143,10 +143,11 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 /* Bottom banner ad */
 .ad { display: grid; place-items: center; background: var(--grey); border: 1px dashed #9AAEB1; color: var(--muted); font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
 .adbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--paper); border-top: 1px solid var(--line); display: flex; justify-content: center; padding: 8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
-/* Banner starts tucked below the screen on the home page and glides up once the
-   visitor scrolls past 75% of the first screen. It stays up after that. */
+/* No banner on the home page. On the game and results screens it glides up from below. */
 .adbar { transform: translateY(calc(100% + 2px)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); box-shadow: 0 -6px 18px rgba(31,59,69,.08); }
 .adbar.show { transform: translateY(0); }
+body.home-screen { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+body.home-screen .adbar { display: none; }
 .ad-leader { width: 320px; height: 50px; max-width: 100%; }
 .sz-d { display: none; }
 @media (min-width: 760px) { .ad-leader { width: 728px; height: 90px; } .sz-m { display: none; } .sz-d { display: inline; } }
@@ -233,7 +234,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 }
 </style>
 </head>
-<body>
+<body class="home-screen">
 <div class="wrap">
   <header class="top">
     <button class="brand" id="brand" type="button" aria-label="Vacation Ranker home">
@@ -397,17 +398,13 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   function fitSoon() { ART.fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ART.fit(); }); }
 
   /* ---------- screens ---------- */
-  /* ---------- footer banner: glide up after scrolling 75% of the first screen ---------- */
-  var adShown = false;
-  function revealAd() { if (!adShown) { adShown = true; $("adbar").classList.add("show"); } }
-  function checkAd() { if (!adShown && window.scrollY > window.innerHeight * 0.75) revealAd(); }
-  window.addEventListener("scroll", checkAd, { passive: true });
-
   function show(name) {
     ["home", "play", "results"].forEach(function (s) { $(s).hidden = s !== name; });
     $("quit").hidden = name === "home";
     window.scrollTo(0, 0);
-    if (name !== "home") revealAd(); else checkAd();
+    document.body.classList.toggle("home-screen", name === "home");
+    if (name !== "home") requestAnimationFrame(function () { requestAnimationFrame(function () { $("adbar").classList.add("show"); }); });
+    else $("adbar").classList.remove("show");
   }
 
   /* ---------- home ---------- */
