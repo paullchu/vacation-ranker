@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vacation Ranker</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Pick between two places at a time and discover your personal top-10 travel ranking.">
+<meta name="theme-color" content="#F7C948">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vacation Ranker">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vacation Ranker">
+<meta property="og:description" content="Dream Destinations: discover what's hot or not for you. Pick A or B and get your top 10.">
+<meta property="og:image" content="https://paullchu.github.io/vacation-ranker/icons/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -608,7 +622,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
             c.fillText(label, x + 64, y);
           });
           c.fillStyle = "#1F3B45"; c.fillRect(0, H - 90, W, 90);
-          c.fillStyle = "#F7C948"; disp(800, 34); c.fillText("DREAM DESTINATIONS", 48, H - 34);
+          c.fillStyle = "#F7C948"; disp(800, 34); c.fillText("VACATION RANKER", 48, H - 34);
           c.fillStyle = "#FFFFFF"; c.font = "500 28px Figtree, system-ui, sans-serif"; c.textAlign = "right"; c.fillText("What's hot or not for you?", W - 48, H - 36); c.textAlign = "left";
           try { cv.toBlob(function (b) { resolve(b ? { blob: b, url: cv.toDataURL("image/png") } : null); }, "image/png"); } catch (e) { resolve(null); }
         };
@@ -628,7 +642,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     var nm = ($("ch-name").value || "").replace(/[^A-Za-z]/g, "").slice(0, 12);
     return SITE_URL + "#vs-" + theme.id + "-" + digits + (nm ? "-" + nm : "");
   }
-  function challengeMessage() { return "I ranked " + theme.title + " on Dream Destinations. Think your taste matches mine? Take the challenge: " + challengeLink(); }
+  function challengeMessage() { return "I ranked " + theme.title + " on Vacation Ranker. Think your taste matches mine? Take the challenge: " + challengeLink(); }
   function updateChallengeLink() {
     $("ch-link").textContent = challengeLink();
     $("ch-x").href = "https://x.com/intent/post?text=" + encodeURIComponent(challengeMessage());
@@ -682,6 +696,11 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
   readChallenge();
   renderHome();
+
+  /* offline support + "Add to Home Screen" (only on the real website, not in previews) */
+  try {
+    if ("serviceWorker" in navigator && location.protocol === "https:" && /github\.io$|vacation-?ranker/i.test(location.hostname)) navigator.serviceWorker.register("sw.js");
+  } catch (e) {}
 })();
 </script>
 </body>

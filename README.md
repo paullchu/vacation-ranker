@@ -24,3 +24,14 @@ Each new place is slotted into your list with as few A-vs-B questions as possibl
 ## Ad slots (placeholders)
 - Native in-feed ad card: top-right cell of each 2×2 theme group, same size as a theme card
 - Bottom banner: 728×90 on desktop and tablets, 320×50 on phones
+
+## Website
+Hosted free on GitHub Pages at https://paullchu.github.io/vacation-ranker/ once Pages is turned on
+(Settings → Pages → Deploy from a branch → `main` / root).
+- `manifest.webmanifest`, `icons/` and `sw.js` make it installable ("Add to Home Screen") and work offline.
+- `icons/og-image.png` is the preview card shown when the link is shared.
+- When the site moves to its own domain, update `SITE_URL` in `index.html` and `og:image`.
+
+## iPhone app (planned)
+The same code will be wrapped as a native iPhone app with Capacitor.
+Needs: an Apple Developer account ($99/year) and a Mac with Xcode, or a cloud build service.
