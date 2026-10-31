@@ -12,7 +12,8 @@
     tags     two short labels shown on the card
     line     one sentence that sells the place
 
-  THEMES: grouped on the home screen. Each lists exactly 10 place ids.
+  THEMES: grouped on the home screen, 3 per group. Each lists exactly 10 place ids.
+  cover (optional) is the preferred poster on the home screen. Covers never repeat.
 */
 window.VR_PLACES = {
   /* ---- Europe ---- */
@@ -131,8 +132,6 @@ window.VR_THEMES = [
 
   { id: "europe", group: "Cities", title: "Dream Europe Vacation", blurb: "Ten classic European escapes.",
     places: ["london", "rome", "barcelona", "berlin", "prague", "amsterdam", "paris", "santorini", "dubrovnik", "lisbon"] },
-  { id: "worldcities", group: "Cities", title: "Great World Cities", blurb: "From Tokyo to New York.",
-    places: ["tokyo", "nyc", "paris", "london", "rome", "dubai", "sydney", "rio", "singapore", "istanbul"] },
   { id: "uscities", group: "Cities", title: "Best U.S. City Getaway", blurb: "Long weekends, all-American style.",
     places: ["nyc", "sf", "chicago", "neworleans", "lasvegas", "miami", "nashville", "austin", "seattle", "dc"] },
   { id: "asia", group: "Cities", title: "Asia Adventures", blurb: "Temples, street food, and skylines.",
@@ -148,12 +147,14 @@ window.VR_THEMES = [
   { id: "beachmtn", group: "This or That", title: "Beach vs Mountains", blurb: "The great debate, settled for you.",
     places: ["maui", "maldives", "santorini", "tulum", "borabora", "zermatt", "banff", "torres", "queenstown", "aspen"] },
   { id: "citynature", group: "This or That", title: "City vs Nature", blurb: "Skylines or wild horizons?",
-    places: ["nyc", "tokyo", "paris", "london", "dubai", "yosemite", "grandcanyon", "serengeti", "milford", "iceland"] },
+    places: ["nyc", "tokyo", "paris", "london", "dubai", "yosemite", "grandcanyon", "serengeti", "milford", "iceland"], cover: "milford" },
+  { id: "citybeach", group: "This or That", title: "City vs Beach", blurb: "Museums and nightlife, or sand between your toes?",
+    places: ["rome", "sf", "singapore", "istanbul", "mexicocity", "maldives", "gracebay", "seychelles", "whitehaven", "fiji"], cover: "seychelles" },
 
   { id: "honeymoon", group: "Just for Fun", title: "Honeymoon Destinations", blurb: "Where would you go to celebrate?",
     places: ["borabora", "maldives", "santorini", "amalfi", "bali", "paris", "seychelles", "stlucia", "maui", "fiji"] },
   { id: "foodie", group: "Just for Fun", title: "Foodie Cities", blurb: "Travel with your taste buds.",
-    places: ["tokyo", "paris", "rome", "bangkok", "mexicocity", "neworleans", "barcelona", "istanbul", "lima", "singapore"] },
+    places: ["tokyo", "paris", "rome", "bangkok", "mexicocity", "neworleans", "barcelona", "istanbul", "lima", "singapore"], cover: "bangkok" },
   { id: "wonders", group: "Just for Fun", title: "Bucket-List Wonders", blurb: "Once-in-a-lifetime sights.",
     places: ["machupicchu", "petra", "greatwall", "tajmahal", "giza", "angkor", "chichenitza", "rio", "grandcanyon", "iceland"] }
 ];

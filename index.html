@@ -68,7 +68,10 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .hero-duel .poster:last-of-type { transform: rotate(2deg) translateY(10px); }
 .group-label { font-family: var(--f-display); font-weight: 800; font-stretch: 85%; font-size: 1.35rem; margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; }
 .group-label::after { content: ""; flex: 1; height: 2px; background: var(--line); }
-.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.themes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (min-width: 640px) { .themes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .themes { grid-template-columns: repeat(3, minmax(0, 1fr)) 300px; } .themes .ad-rect { grid-column: 4; grid-row: 1; } }
+.ad-rect { width: 300px; height: 250px; max-width: 100%; justify-self: center; grid-column: 1 / -1; }
 .ticket { display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; min-width: 0; }
 .ticket:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .ticket .poster { aspect-ratio: 2 / 1; max-width: 100%; }
@@ -265,18 +268,24 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   function renderHome() {
     $("hero-a").innerHTML = poster("santorini", { name: false });
     $("hero-b").innerHTML = poster("zermatt", { name: false });
-    var groups = [], html = "";
+    var groups = [], html = "", used = { santorini: 1, zermatt: 1 };
+    /* each theme gets a cover poster no other theme on the page uses */
+    function coverFor(t) {
+      var last = load("last:" + t.id), prefs = [last && last[0], t.cover].concat(t.places);
+      for (var i = 0; i < prefs.length; i++) if (prefs[i] && PLACES[prefs[i]] && !used[prefs[i]]) { used[prefs[i]] = 1; return prefs[i]; }
+      return t.places[0];
+    }
     THEMES.forEach(function (t) { if (groups.indexOf(t.group) < 0) groups.push(t.group); });
     groups.forEach(function (g) {
       html += '<h2 class="group-label">' + esc(g) + '</h2><div class="themes">';
       THEMES.filter(function (t) { return t.group === g; }).forEach(function (t) {
-        var last = load("last:" + t.id), cover = last && PLACES[last[0]] ? last[0] : t.places[0];
+        var last = load("last:" + t.id), cover = coverFor(t);
         html += '<button type="button" class="ticket" data-theme-id="' + t.id + '">' +
           '<div class="poster">' + poster(cover) + "</div>" +
           '<div class="ticket-body"><h3>' + esc(t.title) + "</h3><p>" + esc(t.blurb) + "</p>" +
           '<div class="meta"><span>Play · 10 places</span><span>' + (last ? "Your #1: " + esc(PLACES[last[0]].name) : "About 2 min") + "</span></div></div></button>";
       });
-      html += "</div>";
+      html += '<div class="ad ad-rect" aria-label="Advertisement placeholder">Ad · 300 × 250</div></div>';
     });
     $("themes").innerHTML = html;
     fitSoon();
