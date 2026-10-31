@@ -33,6 +33,7 @@
 @media (min-width: 760px) { :root { --adbar-h: 106px; } }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { min-height: 100%; }
 body {
   margin: 0; background: var(--paper); color: var(--ink);
@@ -132,6 +133,54 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .sz-d { display: none; }
 @media (min-width: 760px) { .ad-leader { width: 728px; height: 90px; } .sz-m { display: none; } .sz-d { display: inline; } }
 
+/* Hero tagline + challenge banner */
+.tagline { font-family: var(--f-display); font-weight: 800; font-stretch: 85%; font-size: clamp(1.35rem, 3.6vw, 1.8rem); line-height: 1.15; margin: 0 0 12px; color: var(--ink); }
+.hot { color: var(--coral); }
+.not { color: var(--teal); }
+.challenge-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; background: var(--yellow-soft); border: 2px solid var(--yellow); border-radius: 16px; padding: 16px 18px; margin-top: 22px; }
+.challenge-banner b { font-family: var(--f-display); font-weight: 900; font-stretch: 80%; font-size: 1.4rem; line-height: 1.1; display: block; }
+.challenge-banner span { color: var(--muted); }
+
+/* What's next */
+.next { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 680px) { .next { grid-template-columns: minmax(0, 1fr); } }
+.next-btn { display: grid; align-content: start; gap: 2px; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 0; transition: transform .15s ease, box-shadow .15s ease; }
+.next-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.next-btn[aria-expanded="true"] { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal); }
+.next-btn b { font-family: var(--f-display); font-weight: 800; font-stretch: 88%; font-size: 1.15rem; line-height: 1.2; }
+.next-btn > span:last-child { color: var(--muted); font-size: .9rem; }
+.ico { width: 38px; height: 38px; border-radius: 11px; background: var(--yellow); display: grid; place-items: center; margin-bottom: 8px; }
+.ico svg, .sbtn svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; }
+.panel-row { display: grid; gap: 18px; }
+@media (min-width: 700px) { .panel-row { grid-template-columns: 260px minmax(0, 1fr); align-items: start; } }
+.stack { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.panel-title { font-family: var(--f-display); font-weight: 900; font-stretch: 80%; font-size: 1.5rem; line-height: 1.1; }
+.share-preview img { display: block; width: 100%; max-width: 260px; border-radius: 12px; border: 1px solid var(--line); }
+.share-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.sbtn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: .95rem; color: var(--ink); text-decoration: none; }
+.sbtn:hover { border-color: var(--teal); }
+.sbtn.primary { background: var(--yellow); border-color: var(--yellow); }
+.note { margin: 0; color: var(--muted); font-size: .9rem; max-width: 62ch; }
+.field { display: grid; gap: 4px; max-width: 320px; }
+.field label { font-size: .85rem; font-weight: 600; }
+.field input { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); }
+.field input:focus-visible { outline: 3px solid var(--teal); outline-offset: 1px; }
+.linkbox { font-family: var(--f-mono); font-size: .8rem; background: var(--grey); padding: 10px 12px; border-radius: 10px; word-break: break-all; user-select: all; }
+
+/* Friend comparison */
+.compare { background: var(--surface); border: 2px solid var(--yellow); border-radius: 16px; padding: 18px; display: grid; gap: 14px; }
+.compare-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.match { font-family: var(--f-display); font-weight: 900; font-stretch: 75%; font-size: clamp(2.6rem, 9vw, 3.6rem); line-height: .9; color: var(--coral); font-variant-numeric: tabular-nums; }
+.compare-head b { font-family: var(--f-display); font-weight: 900; font-stretch: 80%; font-size: 1.5rem; text-transform: uppercase; }
+.compare-head p { margin: 0; color: var(--muted); flex-basis: 100%; }
+.cmp-scroll { overflow-x: auto; }
+.cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 320px; }
+.cmp th { text-align: left; font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 4px 8px; }
+.cmp td { padding: 7px 8px; border-top: 1px solid var(--line); }
+.cmp td:first-child { font-family: var(--f-mono); color: var(--teal); font-weight: 600; width: 3ch; }
+.cmp tr.same td { background: var(--yellow-soft); font-weight: 600; }
+
 /* Results */
 .results { max-width: 860px; margin: 0 auto; padding-top: 6px; display: grid; gap: 16px; }
 .winner { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
@@ -183,8 +232,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     <section id="home">
       <div class="hero">
         <div>
-          <div class="eyebrow">Pick one. Then another.</div>
-          <h1>Find out where you <mark>really</mark> want to go</h1>
+          <h1>Dream <mark>Destinations</mark></h1>
+          <p class="tagline">Discover what's <span class="hot">hot</span> or <span class="not">not</span> for you</p>
           <p>Choose a theme, then pick between two places at a time. In about two minutes you'll have your personal top-10 ranking.</p>
         </div>
         <div class="hero-duel" aria-hidden="true">
@@ -193,6 +242,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
           <div class="vs">VS</div>
         </div>
       </div>
+      <div class="challenge-banner" id="challenge-banner" hidden></div>
       <div id="themes"></div>
     </section>
 
@@ -229,6 +279,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
             <div class="top1" id="top1"></div>
           </div>
         </div>
+        <div class="compare" id="compare" hidden></div>
         <div class="board">
           <div class="board-head"><span id="board-title">Departures</span><span id="board-time"></span></div>
           <div class="board-scroll">
@@ -238,10 +289,52 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
             </table>
           </div>
         </div>
-        <div class="actions">
-          <button class="btn primary" id="again" type="button">Play again</button>
-          <button class="btn" id="share" type="button">Copy my ranking</button>
-          <button class="btn" id="home-btn" type="button">All themes</button>
+        <h2 class="group-label">What's next?</h2>
+        <div class="next">
+          <button class="next-btn" id="open-share" type="button" aria-expanded="false" aria-controls="share-panel">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></span>
+            <b>Share my results</b><span>Copy, X, Instagram, Facebook or TikTok</span>
+          </button>
+          <button class="next-btn" id="explore" type="button">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></span>
+            <b>Explore another destination</b><span>Pick a new theme to rank</span>
+          </button>
+          <button class="next-btn" id="open-challenge" type="button" aria-expanded="false" aria-controls="challenge-panel">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M2.5 19c.8-3.4 3-5 5.5-5s4.7 1.6 5.5 5M13.5 14.6c.9-.4 1.9-.6 3-.6 2.2 0 4 1.4 5 4.5"/></svg></span>
+            <b>Challenge a friend</b><span>They rank the same 10 places, then you compare</span>
+          </button>
+        </div>
+
+        <div class="panel" id="share-panel" hidden>
+          <div class="panel-row">
+            <div class="share-preview"><img id="share-img" alt="Your top 10 as a shareable image" hidden></div>
+            <div class="stack">
+              <b class="panel-title">Share your ranking</b>
+              <div class="share-grid">
+                <button class="sbtn" id="sh-copy" type="button"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>Copy results</button>
+                <a class="sbtn" id="sh-x" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>X</a>
+                <a class="sbtn" id="sh-fb" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M15.5 8H14a2 2 0 0 0-2 2v11M9.5 13h5"/></svg>Facebook</a>
+                <button class="sbtn" id="sh-ig" type="button"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg>Instagram</button>
+                <button class="sbtn" id="sh-tt" type="button"><svg viewBox="0 0 24 24"><path d="M13 3v12.5a3.5 3.5 0 1 1-3.5-3.5M13 3c.4 2.6 2.2 4.4 5 4.6"/></svg>TikTok</button>
+              </div>
+              <p class="note" id="share-note">Instagram and TikTok posts use the image. On a phone you can send it straight to the app; on a computer, save the image and upload it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="challenge-panel" hidden>
+          <b class="panel-title">Challenge a friend</b>
+          <p class="note">Send this link. Your friend ranks the same 10 places without seeing your list. When they finish, both rankings appear side by side with a match score.</p>
+          <div class="field">
+            <label for="ch-name">Your first name (optional)</label>
+            <input id="ch-name" type="text" maxlength="12" autocomplete="given-name" placeholder="So they know who sent it">
+          </div>
+          <div class="linkbox" id="ch-link"></div>
+          <div class="share-grid">
+            <button class="sbtn primary" id="ch-copy" type="button">Copy challenge link</button>
+            <a class="sbtn" id="ch-x" target="_blank" rel="noopener">Send on X</a>
+            <button class="sbtn" id="ch-native" type="button" hidden>More ways to send</button>
+          </div>
         </div>
         <div class="toast" id="toast" role="status"></div>
       </div>
@@ -266,6 +359,10 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
   var AD_CARD = '<div class="ad-card" aria-label="Advertisement placeholder"><div class="ad-media">Ad image</div>' +
     '<div class="ad-body"><span class="ad-tag">Sponsored</span><b>Native ad slot</b><span>Sized to match the theme cards</span></div></div>';
+  /* Where shared links point. Update this when the app gets its own web address. */
+  var SITE_URL = /github\.io$|vacation-?ranker/i.test(location.hostname) ? location.origin + location.pathname : "https://claude.ai/artifact/Pi4PFj3cwnF6PDLvvgt6u2";
+  var CH = null, vs = null, lastPersona = null, shareBlob = null;
+
   function poster(id, opts) { return ART.render(id, PLACES[id], opts); }
   function fitSoon() { ART.fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ART.fit(); }); }
 
@@ -277,7 +374,28 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   }
 
   /* ---------- home ---------- */
+  /* ---------- incoming challenge: link looks like #vs-europe-4021357986-Paul ---------- */
+  function readChallenge() {
+    CH = null;
+    var m = /^#vs-([a-z]+)-(\d{10})(?:-([A-Za-z]{1,12}))?$/.exec(location.hash || "");
+    if (!m) return;
+    var t = THEMES.filter(function (x) { return x.id === m[1]; })[0];
+    if (!t) return;
+    var idx = m[2].split("").map(Number);
+    if (idx.slice().sort().join("") !== "0123456789") return;
+    CH = { theme: t.id, order: idx.map(function (i) { return t.places[i]; }), name: m[3] || "" };
+  }
+  function renderBanner() {
+    var b = $("challenge-banner");
+    if (!CH) { b.hidden = true; return; }
+    var t = THEMES.filter(function (x) { return x.id === CH.theme; })[0];
+    b.innerHTML = "<div><b>" + esc(CH.name || "A friend") + " challenged you</b><span>Rank " + esc(t.title) + ", then see how your taste compares.</span></div>" +
+      '<button class="btn primary" id="take-challenge" type="button">Take the challenge</button>';
+    b.hidden = false;
+  }
+
   function renderHome() {
+    renderBanner();
     $("hero-a").innerHTML = poster("santorini", { name: false });
     $("hero-b").innerHTML = poster("zermatt", { name: false });
     var groups = [], html = "", used = { santorini: 1, zermatt: 1 };
@@ -316,6 +434,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
   function start(themeId) {
     theme = THEMES.filter(function (t) { return t.id === themeId; })[0];
+    vs = CH && CH.theme === themeId ? CH : null;
     var order = shuffle(theme.places);
     S = { order: order, sorted: [order[0]], next: 1, lo: 0, hi: 1, picks: 0 };
     history = [];
@@ -410,13 +529,129 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
         '<td><span class="dest">' + esc(d.name) + '</span> <span class="ctry">' + esc(d.country) + "</span></td>" +
         "<td>" + status(i, n) + "</td></tr>";
     }).join("");
+    lastPersona = p;
     $("toast").textContent = "";
+    renderCompare();
+    closePanels();
+    shareBlob = null; $("share-img").hidden = true;
     show("results");
     fitSoon();
   }
-  function shareText() {
-    return "My " + theme.title + " ranking:\n" +
-      S.sorted.map(function (id, i) { return (i + 1) + ". " + PLACES[id].name; }).join("\n") + "\n\nRanked with Vacation Ranker";
+  function shareText(full) {
+    var list = S.sorted.map(function (id, i) { return (i + 1) + ". " + PLACES[id].name; });
+    if (!full) return "My " + theme.title + " top 3: " + list.slice(0, 3).join(", ") + ". What's hot or not for you?";
+    return "My " + theme.title + " ranking:\n" + list.join("\n") + "\n\nI'm a " + lastPersona[0] + ". Discover what's hot or not for you: " + SITE_URL;
+  }
+  function copy(text, okMsg) {
+    var fallback = function () { $("toast").textContent = "Copying isn't available here. Select this text instead: " + text.replace(/\n+/g, " · "); };
+    try { navigator.clipboard.writeText(text).then(function () { $("toast").textContent = okMsg; }, fallback); } catch (e) { fallback(); }
+  }
+
+  /* ---------- next-step panels ---------- */
+  function closePanels() {
+    $("share-panel").hidden = true; $("challenge-panel").hidden = true;
+    $("open-share").setAttribute("aria-expanded", "false"); $("open-challenge").setAttribute("aria-expanded", "false");
+  }
+  function togglePanel(which) {
+    var panel = $(which + "-panel"), opening = panel.hidden;
+    closePanels();
+    if (!opening) return;
+    panel.hidden = false;
+    $("open-" + which).setAttribute("aria-expanded", "true");
+    $("toast").textContent = "";
+    if (which === "share") prepareShare(); else updateChallengeLink();
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  function prepareShare() {
+    $("sh-x").href = "https://x.com/intent/post?text=" + encodeURIComponent(shareText(false)) + "&url=" + encodeURIComponent(SITE_URL);
+    $("sh-fb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE_URL);
+    if (!shareBlob) buildShareImage().then(function (r) {
+      if (!r) return;
+      shareBlob = r.blob;
+      $("share-img").src = r.url; $("share-img").hidden = false;
+    });
+  }
+  function shareToApp(app) {
+    var caption = shareText(true);
+    try {
+      if (shareBlob && navigator.canShare) {
+        var file = new File([shareBlob], "my-top-10.png", { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) { navigator.share({ files: [file], text: caption }).catch(function () {}); return; }
+      }
+    } catch (e) {}
+    copy(caption, "Caption copied. Save the image (press and hold it on a phone, or right-click on a computer), then post it on " + app + " and paste the caption.");
+  }
+
+  /* ---------- shareable image (1080 x 1350, Instagram portrait) ---------- */
+  function buildShareImage() {
+    return new Promise(function (resolve) {
+      try {
+        var W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+        var c = cv.getContext("2d"), top = S.sorted[0], name = PLACES[top].name.toUpperCase();
+        var disp = function (w, px) { c.font = w + " " + px + "px Archivo, 'Arial Narrow', Arial, sans-serif"; try { c.fontStretch = "condensed"; } catch (e) {} };
+        var draw = function (img) {
+          c.fillStyle = "#EEF3F2"; c.fillRect(0, 0, W, H);
+          if (img) c.drawImage(img, 0, 0, W, 675);
+          var size = Math.min(150, Math.floor(675 / (name.length * 0.6))); disp(900, size);
+          while (c.measureText(name).width > 760 && size > 40) { size -= 4; disp(900, size); }
+          c.lineJoin = "round"; c.lineWidth = Math.max(10, size / 7); c.strokeStyle = "#F4FBFA"; c.fillStyle = "#1F3B45";
+          c.strokeText(name, 48, 300); c.fillText(name, 48, 300);
+          c.fillStyle = "#F7C948"; c.fillRect(0, 675, W, 96);
+          c.fillStyle = "#1F3B45"; c.font = "600 30px 'IBM Plex Mono', monospace"; c.fillText(("MY TOP 10 · " + theme.title).toUpperCase(), 48, 735);
+          disp(900, 64); c.fillText(lastPersona[0].toUpperCase(), 48, 856);
+          c.font = "500 26px 'IBM Plex Mono', monospace"; c.fillStyle = "#5D7378"; c.fillText("MY TRAVEL PERSONALITY", 48, 800);
+          S.sorted.forEach(function (id, i) {
+            var col = i < 5 ? 0 : 1, row = i % 5, x = 48 + col * 510, y = 940 + row * 62;
+            c.font = "600 32px 'IBM Plex Mono', monospace"; c.fillStyle = "#2F9C9A"; c.fillText(String(i + 1).padStart(2, "0"), x, y);
+            c.font = (i === 0 ? "700" : "600") + " 34px Figtree, system-ui, sans-serif"; c.fillStyle = "#1F3B45";
+            var label = PLACES[id].name; while (c.measureText(label).width > 400 && label.length > 4) label = label.slice(0, -2) + "…";
+            c.fillText(label, x + 64, y);
+          });
+          c.fillStyle = "#1F3B45"; c.fillRect(0, H - 90, W, 90);
+          c.fillStyle = "#F7C948"; disp(800, 34); c.fillText("DREAM DESTINATIONS", 48, H - 34);
+          c.fillStyle = "#FFFFFF"; c.font = "500 28px Figtree, system-ui, sans-serif"; c.textAlign = "right"; c.fillText("What's hot or not for you?", W - 48, H - 36); c.textAlign = "left";
+          try { cv.toBlob(function (b) { resolve(b ? { blob: b, url: cv.toDataURL("image/png") } : null); }, "image/png"); } catch (e) { resolve(null); }
+        };
+        var svg = ART.render(top, PLACES[top], { name: false }).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="675" ');
+        var img = new Image();
+        img.onload = function () { draw(img); };
+        img.onerror = function () { draw(null); };
+        var go = function () { img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg); };
+        if (document.fonts && document.fonts.load) Promise.all([document.fonts.load("900 40px Archivo"), document.fonts.load("600 20px 'IBM Plex Mono'"), document.fonts.load("600 20px Figtree")]).then(go, go); else go();
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  /* ---------- challenge a friend ---------- */
+  function challengeLink() {
+    var digits = S.sorted.map(function (id) { return theme.places.indexOf(id); }).join("");
+    var nm = ($("ch-name").value || "").replace(/[^A-Za-z]/g, "").slice(0, 12);
+    return SITE_URL + "#vs-" + theme.id + "-" + digits + (nm ? "-" + nm : "");
+  }
+  function challengeMessage() { return "I ranked " + theme.title + " on Dream Destinations. Think your taste matches mine? Take the challenge: " + challengeLink(); }
+  function updateChallengeLink() {
+    $("ch-link").textContent = challengeLink();
+    $("ch-x").href = "https://x.com/intent/post?text=" + encodeURIComponent(challengeMessage());
+    $("ch-native").hidden = !(navigator.share);
+  }
+  function renderCompare() {
+    var box = $("compare");
+    if (!vs) { box.hidden = true; return; }
+    var mine = S.sorted, theirs = vs.order, who = vs.name || "Your friend", dist = 0, worst = null, worstGap = -1;
+    mine.forEach(function (id, i) { var j = theirs.indexOf(id), g = Math.abs(i - j); dist += g; if (g > worstGap) { worstGap = g; worst = id; } });
+    var pct = Math.round(100 * (1 - dist / 50));
+    var verdict = pct >= 80 ? "Travel soulmates" : pct >= 60 ? "Great travel buddies" : pct >= 40 ? "You'd find a compromise" : "Separate vacations!";
+    var both = mine.slice(0, 3).filter(function (id) { return theirs.slice(0, 3).indexOf(id) >= 0; }).map(function (id) { return PLACES[id].name; });
+    var line = (both.length ? "You both have " + (both.length > 1 ? both.slice(0, -1).join(", ") + " and " + both[both.length - 1] : both[0]) + " in your top 3. " : "No overlap in your top 3. ") +
+      "Biggest difference: " + PLACES[worst].name + " (you #" + (mine.indexOf(worst) + 1) + ", " + esc(who) + " #" + (theirs.indexOf(worst) + 1) + ").";
+    var rows = mine.map(function (id, i) {
+      return '<tr class="' + (theirs[i] === id ? "same" : "") + '"><td>' + (i + 1) + "</td><td>" + esc(PLACES[id].name) + "</td><td>" + esc(PLACES[theirs[i]].name) + "</td></tr>";
+    }).join("");
+    box.innerHTML = '<div class="compare-head"><span class="match">' + pct + '%</span><b>' + verdict + "</b><p>You vs " + esc(who) + ". " + line + "</p></div>" +
+      '<div class="cmp-scroll"><table class="cmp"><thead><tr><th>#</th><th>You</th><th>' + esc(who) + "</th></tr></thead><tbody>" + rows + "</tbody></table></div>";
+    box.hidden = false;
+    CH = null; vs = null;
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
   }
 
   /* ---------- wiring ---------- */
@@ -424,15 +659,20 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
   $("cardA").addEventListener("click", function () { choose(this.dataset.id); });
   $("cardB").addEventListener("click", function () { choose(this.dataset.id); });
   $("undo").addEventListener("click", undo);
-  $("again").addEventListener("click", function () { start(theme.id); });
   function goHome() { renderHome(); show("home"); }
-  $("home-btn").addEventListener("click", goHome);
   $("quit").addEventListener("click", goHome);
   $("brand").addEventListener("click", goHome);
-  $("share").addEventListener("click", function () {
-    var text = shareText(), fallback = function () { $("toast").textContent = text.replace(/\n+/g, " · "); };
-    try { navigator.clipboard.writeText(text).then(function () { $("toast").textContent = "Copied. Paste it anywhere to share."; }, fallback); } catch (e) { fallback(); }
-  });
+  $("explore").addEventListener("click", goHome);
+  $("open-share").addEventListener("click", function () { togglePanel("share"); });
+  $("open-challenge").addEventListener("click", function () { togglePanel("challenge"); });
+  $("sh-copy").addEventListener("click", function () { copy(shareText(true), "Results copied. Paste them anywhere."); });
+  $("sh-ig").addEventListener("click", function () { shareToApp("Instagram"); });
+  $("sh-tt").addEventListener("click", function () { shareToApp("TikTok"); });
+  $("ch-name").addEventListener("input", updateChallengeLink);
+  $("ch-copy").addEventListener("click", function () { copy(challengeMessage(), "Challenge link copied. Send it to a friend."); });
+  $("ch-native").addEventListener("click", function () { try { navigator.share({ text: challengeMessage() }).catch(function () {}); } catch (e) {} });
+  $("challenge-banner").addEventListener("click", function (e) { if (e.target.closest("#take-challenge")) start(CH.theme); });
+  window.addEventListener("hashchange", function () { readChallenge(); if (!$("home").hidden) renderHome(); });
   document.addEventListener("keydown", function (e) {
     if ($("play").hidden) return;
     if (e.key === "ArrowLeft") choose($("cardA").dataset.id);
@@ -440,6 +680,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     else if (e.key === "u" || e.key === "U") undo();
   });
 
+  readChallenge();
   renderHome();
 })();
 </script>
