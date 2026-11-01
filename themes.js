@@ -123,19 +123,19 @@ window.VR_PLACES = {
 };
 
 window.VR_THEMES = [
-  { id: "beaches", group: "Beaches & Islands", title: "Best Beach in the World", blurb: "Sand, surf, and sunsets.",
-    places: ["whitehaven", "navagio", "gracebay", "seychelles", "tulum", "rio", "maui", "maldives", "borabora", "bali"] },
-  { id: "caribbean", group: "Beaches & Islands", title: "Caribbean Escapes", blurb: "Island hopping, rum punch in hand.",
-    places: ["gracebay", "aruba", "stlucia", "jamaica", "bahamas", "barbados", "puertorico", "cayman", "stbarts", "stjohn"] },
-  { id: "tropical", group: "Beaches & Islands", title: "Tropical Islands", blurb: "Palm trees and turquoise lagoons.",
-    places: ["bali", "maldives", "borabora", "fiji", "maui", "seychelles", "phuket", "mauritius", "palawan", "zanzibar"] },
-
   { id: "europe", group: "Cities", title: "Dream Europe Vacation", blurb: "Ten classic European escapes.",
     places: ["london", "rome", "barcelona", "berlin", "prague", "amsterdam", "paris", "santorini", "dubrovnik", "lisbon"] },
   { id: "uscities", group: "Cities", title: "Best U.S. City Getaway", blurb: "Long weekends, all-American style.",
     places: ["nyc", "sf", "chicago", "neworleans", "lasvegas", "miami", "nashville", "austin", "seattle", "dc"] },
   { id: "asia", group: "Cities", title: "Asia Adventures", blurb: "Temples, street food, and skylines.",
     places: ["tokyo", "kyoto", "seoul", "bangkok", "singapore", "hongkong", "bali", "halong", "angkor", "taipei"] },
+
+  { id: "beaches", group: "Beaches & Islands", title: "Best Beach in the World", blurb: "Sand, surf, and sunsets.",
+    places: ["whitehaven", "navagio", "gracebay", "seychelles", "tulum", "rio", "maui", "maldives", "borabora", "bali"] },
+  { id: "caribbean", group: "Beaches & Islands", title: "Caribbean Escapes", blurb: "Island hopping, rum punch in hand.",
+    places: ["gracebay", "aruba", "stlucia", "jamaica", "bahamas", "barbados", "puertorico", "cayman", "stbarts", "stjohn"] },
+  { id: "tropical", group: "Beaches & Islands", title: "Tropical Islands", blurb: "Palm trees and turquoise lagoons.",
+    places: ["bali", "maldives", "borabora", "fiji", "maui", "seychelles", "phuket", "mauritius", "palawan", "zanzibar"] },
 
   { id: "ski", group: "Mountains & Outdoors", title: "Ski Resorts", blurb: "Powder days and après-ski.",
     places: ["whistler", "aspen", "zermatt", "vail", "chamonix", "stanton", "niseko", "parkcity", "jacksonhole", "cortina"] },

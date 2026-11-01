@@ -1,7 +1,7 @@
 /* Vacation Ranker offline support: keeps a copy of the app so it opens without a connection.
    Bump VERSION whenever the app changes so phones pick up the new files. */
-var VERSION = "vr-v2";
-var FILES = ["./", "index.html", "themes.js", "art.js", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
+var VERSION = "vr-v3";
+var FILES = ["./", "index.html", "themes.js", "art.js", "ads.js", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", function (e) { e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(FILES); })); self.skipWaiting(); });
 self.addEventListener("activate", function (e) {
   e.waitUntil(caches.keys().then(function (keys) { return Promise.all(keys.filter(function (k) { return k !== VERSION; }).map(function (k) { return caches.delete(k); })); }));

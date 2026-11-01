@@ -85,16 +85,27 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .group-label::after { content: ""; flex: 1; height: 2px; background: var(--line); }
 .themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 /* Native in-feed ad: same size and shape as a theme card, always the top-right cell */
-.ad-card { display: flex; flex-direction: column; border: 1px dashed #9AAEB1; border-radius: 14px; overflow: hidden; background: var(--surface); min-width: 0; }
-.ad-media { aspect-ratio: 2 / 1; max-width: 100%; display: grid; place-items: center; background: var(--grey); color: var(--muted); font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; text-align: center; padding: 8px; }
-.ad-body { display: grid; gap: 2px; padding: 12px 14px 14px; border-top: 2px dashed var(--line); color: var(--muted); font-size: .9rem; }
-.ad-body b { color: var(--ink); font-family: var(--f-display); font-weight: 800; font-stretch: 88%; font-size: 1.12rem; line-height: 1.2; }
-.ad-tag { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+.ad-card { display: grid; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); min-width: 0; }
+.ad-frame { grid-area: 1 / 1; display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s linear .7s; min-width: 0; }
+.ad-frame.on { opacity: 1; visibility: visible; transition: opacity .7s ease; }
+.ad-media { aspect-ratio: 2 / 1; max-width: 100%; overflow: hidden; background: var(--grey); }
+.ad-media svg { display: block; width: 100%; height: 100%; }
+.ad-body { display: grid; gap: 3px; align-content: start; padding: 12px 14px 14px; color: var(--muted); font-size: .9rem; flex: 1; }
+.ad-body b { color: var(--ink); font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.ad-tag { font-size: .72rem; font-weight: 600; color: var(--muted); }
+.ad-cta { justify-self: start; margin-top: 6px; padding: 6px 14px; border-radius: 6px; background: var(--ink); color: #FFFFFF; font-size: .82rem; font-weight: 600; }
+@media (min-width: 700px) {
+  .ad-card.wide .ad-frame { display: grid; grid-template-columns: 1.15fr 1fr; }
+  .ad-card.wide .ad-body { align-content: center; padding: 18px 22px; }
+  .ad-card.wide .ad-body b { font-size: 1.35rem; }
+}
 @media (max-width: 520px) {
   .themes { gap: 10px; }
   .ticket-body, .ad-body { padding: 8px 10px 10px; }
   .ticket h3, .ad-body b { font-size: .98rem; }
-  .ticket p, .ad-body span:last-child { display: none; }
+  .ticket p, .ad-line { display: none; }
+  .ad-cta { padding: 4px 10px; font-size: .75rem; }
+  .ad-card.wide .ad-line { display: block; }
   .ticket .meta span:last-child { display: none; }
 }
 .ticket { display: flex; flex-direction: column; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease; min-width: 0; }
@@ -308,6 +319,7 @@ body.home-screen .adbar { display: none; }
             </table>
           </div>
         </div>
+        <div id="result-ad"></div>
         <h2 class="group-label">What's next?</h2>
         <div class="next">
           <button class="next-btn" id="open-share" type="button" aria-expanded="false" aria-controls="share-panel">
@@ -365,6 +377,7 @@ body.home-screen .adbar { display: none; }
 
 <script src="themes.js"></script>
 <script src="art.js"></script>
+<script src="ads.js"></script>
 <script>
 (function () {
   "use strict";
@@ -376,8 +389,6 @@ body.home-screen .adbar { display: none; }
   function save(key, val) { try { localStorage.setItem("vr:" + key, JSON.stringify(val)); } catch (e) {} }
   function load(key) { try { return JSON.parse(localStorage.getItem("vr:" + key)); } catch (e) { return null; } }
 
-  var AD_CARD = '<div class="ad-card" aria-label="Advertisement placeholder"><div class="ad-media">Ad image</div>' +
-    '<div class="ad-body"><span class="ad-tag">Sponsored</span><b>Native ad slot</b><span>Sized to match the theme cards</span></div></div>';
   /* Where shared links point. Update this when the app gets its own web address. */
   var SITE_URL = "https://paullchu.github.io/vacation-ranker/";
   var CH = null, vs = null, lastPersona = null, shareBlob = null, shareDataUrl = null;
@@ -440,12 +451,12 @@ body.home-screen .adbar { display: none; }
       return t.places[0];
     }
     THEMES.forEach(function (t) { if (groups.indexOf(t.group) < 0) groups.push(t.group); });
-    groups.forEach(function (g) {
+    groups.forEach(function (g, gi) {
       html += '<h2 class="group-label">' + esc(g) + '</h2><div class="themes">';
       var k = 0;
       THEMES.filter(function (t) { return t.group === g; }).forEach(function (t) {
         var last = load("last:" + t.id), cover = coverFor(t);
-        if (k === 1) html += AD_CARD;
+        if (k === 1) html += window.VR_ADS ? VR_ADS.slot(VR_ADS.slots.home[gi % VR_ADS.slots.home.length]) : "";
         k++;
         html += '<button type="button" class="ticket" data-theme-id="' + t.id + '">' +
           '<div class="poster">' + poster(cover) + "</div>" +
@@ -568,6 +579,7 @@ body.home-screen .adbar { display: none; }
     $("toast").textContent = "";
     renderCompare();
     closePanels();
+    if (window.VR_ADS) $("result-ad").innerHTML = VR_ADS.slot(VR_ADS.slots.results, true);
     shareBlob = null; shareDataUrl = null; $("share-img").hidden = true;
     show("results");
     fitSoon();
@@ -718,6 +730,7 @@ body.home-screen .adbar { display: none; }
 
   readChallenge();
   renderHome();
+  if (window.VR_ADS) VR_ADS.start();
 
   /* offline support + "Add to Home Screen" (only on the real website, not in previews) */
   try {
